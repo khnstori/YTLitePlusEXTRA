@@ -88,13 +88,18 @@ jobs:
           echo "YT_VERSION=$(grep -A 1 '<key>CFBundleVersion</key>' ytextracted/Payload/YouTube.app/Info.plist | grep '<string>' | awk -F'[><]' '{print $3}')" >> $GITHUB_ENV
 
       - name: Install Dependencies
-        run: brew install make ldid meson ninja
+        run: brew install make ldid meson ninja go
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
 
       - name: Set PATH Environment Variables
         run: |
           echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH
           echo "THEOS=${{ github.workspace }}/theos" >> $GITHUB_ENV
-
+          
       # Original from YTweaks
       - name: Get tweaks commit
         run: |
